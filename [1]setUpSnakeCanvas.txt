@@ -1,0 +1,119 @@
+// main.cpp
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#include <list>
+#include <vector>
+#include <iostream>
+#include <cmath>
+
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+
+std::list<glm::vec2> snake;
+float backgroundHue = 0.0f;
+
+float mouseX = SCR_WIDTH / 2;
+float mouseY = SCR_HEIGHT / 2;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+    mouseX = static_cast<float>(xpos);
+    mouseY = static_cast<float>(ypos);
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_C) {
+            snake.clear();
+        }
+        else if (key == GLFW_KEY_A) {
+            snake.emplace_back(static_cast<float>(rand() % SCR_WIDTH), static_cast<float>(rand() % SCR_HEIGHT));
+        }
+        else if (key == GLFW_KEY_R) {
+            if (!snake.empty()) snake.pop_back();
+        }
+    }
+}
+
+// Convert HSB to RGB
+glm::vec3 hsb2rgb(float h, float s, float b) {
+    h = fmodf(h, 1.0f);
+    float c = b * s;
+    float x = c * (1 - fabsf(fmodf(h * 6.0f, 2.0f) - 1));
+    float m = b - c;
+    glm::vec3 rgb;
+    if (h < 1.0f / 6) rgb = { c, x, 0 };
+    else if (h < 2.0f / 6) rgb = { x, c, 0 };
+    else if (h < 3.0f / 6) rgb = { 0, c, x };
+    else if (h < 4.0f / 6) rgb = { 0, x, c };
+    else if (h < 5.0f / 6) rgb = { x, 0, c };
+    else rgb = { c, 0, x };
+    return rgb + glm::vec3(m);
+}
+
+void update() {
+    glm::vec2 target(mouseX, mouseY);
+    for (auto& pos : snake) {
+        pos = glm::mix(pos, target, 0.2f);
+        target = pos;
+    }
+    backgroundHue = fmodf(backgroundHue + 0.001f, 1.0f);
+}
+
+int main() {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "GLFW Snake", NULL, NULL);
+    if (window == NULL) {
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cerr << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+    glfwSetKeyCallback(window, key_callback);
+
+    // Init snake
+    for (int i = 0; i < 20; i++) {
+        snake.emplace_back(SCR_WIDTH / 2.0f, SCR_HEIGHT / 2.0f);
+    }
+
+    // Enable blending for transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    while (!glfwWindowShouldClose(window)) {
+        update();
+
+        // Clear with background color
+        glm::vec3 c1 = hsb2rgb(fmodf(backgroundHue, 1.0f), 0.6f, 0.9f);
+        glClearColor(c1.r, c1.g, c1.b, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // TODO: Render snake using modern OpenGL (VBOs, VAOs, shaders)
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}

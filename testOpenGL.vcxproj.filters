@@ -18,5 +18,23 @@
     <ClCompile Include="testOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="external\glad\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="setUpOpengl.txt" />
+    <Text Include="[1]setUpSnakeCanvas.txt" />
+    <Text Include="[2]snakeLikeAWhiteLine.txt" />
+    <Text Include="[2-3-4]snake-vert.txt" />
+    <Text Include="[2-3-4]snake-frag.txt" />
+    <Text Include="[3]snakeWithColorLine.txt" />
+    <Text Include="[4]snakeWithColorLineWhiteCircles.txt" />
+    <Text Include="[4]circle-frag.txt" />
+    <Text Include="[4]circle-vert.txt" />
+    <Text Include="[5]circle-frag.txt" />
+    <Text Include="[5-6]circle-vert.txt" />
+    <Text Include="[5-6]snakeWithColorLineColorSizeCircles.txt" />
+    <Text Include="[6]circle-frag.txt" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,9 @@
+#version 460 core
+layout(location = 0) in vec2 aPos;
+
+void main() {
+    // convertir coordenadas de píxeles a NDC
+    vec2 pos = aPos / vec2(400.0, 300.0) - 1.0;
+    pos.y *= -1.0;
+    gl_Position = vec4(pos, 0.0, 1.0);
+}

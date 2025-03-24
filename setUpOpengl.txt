@@ -1,0 +1,82 @@
+#include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+const GLint WIDTH = 800;
+const GLint HEIGHT = 600;
+
+void GetOpenGLInfo() {
+	std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
+	std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
+}
+
+int main()
+{
+
+	if (!glfwInit())
+	{
+		std::cout << "GLFW initialization failed" << std::endl;
+		glfwTerminate();
+		return 1;
+	}
+	
+	// Setup GLFW window properties
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // No Backwards Compatibility
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Forward Compatibility
+
+	// Create the window
+	GLFWwindow* mainWindow = glfwCreateWindow(WIDTH, HEIGHT, "Test Window", NULL, NULL);
+
+	if (!mainWindow)
+	{
+		std::cout << "GLFW window creation failed" << std::endl;
+		glfwTerminate();
+		return 1;
+	}
+
+	// Get buffer size information
+	int bufferWidth, bufferHeight;
+	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
+
+	// Set context for GLAD to use
+	glfwMakeContextCurrent(mainWindow);
+
+	// Init GLAD
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "GLAD initialization failed" << std::endl;
+		glfwDestroyWindow(mainWindow);
+		glfwTerminate();
+		return 1;
+	}
+
+
+	// Setup Viewport size
+	glViewport(0, 0, bufferWidth, bufferHeight);
+
+	// Get OpenGL version
+	GetOpenGLInfo();
+
+	//Loop until window closed
+	while (!glfwWindowShouldClose(mainWindow))
+	{
+		// Get + Handle user input events
+		glfwPollEvents();
+		// Clear window
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f); // Black
+		glClear(GL_COLOR_BUFFER_BIT);
+		glfwSwapBuffers(mainWindow);
+	}
+
+
+	// Cleanup
+	glfwDestroyWindow(mainWindow);
+	glfwTerminate();
+	return 0;
+
+}
