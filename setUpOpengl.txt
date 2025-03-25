@@ -76,6 +76,7 @@ int main()
 
 	// Cleanup
 	glfwDestroyWindow(mainWindow);
+
 	glfwTerminate();
 	return 0;
 
