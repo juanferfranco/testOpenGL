@@ -294,6 +294,7 @@ int main() {
     GetOpenGLInfo();
 
     while (!glfwWindowShouldClose(window)) {
+        
         update();
 
         glm::vec3 c1 = hsb2rgb(fmodf(backgroundHue, 1.0f), 0.6f, 0.9f);
