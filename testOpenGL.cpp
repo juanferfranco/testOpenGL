@@ -223,6 +223,8 @@ int main() {
         return -1;
     }
 
+    glfwSwapInterval(1);
+
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
@@ -285,6 +287,8 @@ int main() {
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        //std::cout << "loop time: " << glfwGetTime() << std::endl;
     }
 
     glfwTerminate();

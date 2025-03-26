@@ -37,4 +37,18 @@
     <Text Include="[5-6]snakeWithColorLineColorSizeCircles.txt" />
     <Text Include="[6]circle-frag.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="circle.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="circle.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="snake.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="snake.vert">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -148,6 +148,12 @@
     <Text Include="[5-6]snakeWithColorLineColorSizeCircles.txt" />
     <Text Include="[6]circle-frag.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="circle.frag" />
+    <None Include="circle.vert" />
+    <None Include="snake.frag" />
+    <None Include="snake.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
