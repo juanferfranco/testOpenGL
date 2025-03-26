@@ -42,6 +42,15 @@ GLuint circleVAO, circleVBO, instanceVBO;
 
 std::vector<glm::vec2> unitCircle;
 
+
+void GetOpenGLInfo() {
+    std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "Version: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     windowWidth = width;
     windowHeight = height;
@@ -281,6 +290,8 @@ int main() {
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(CircleInstance), (void*)(sizeof(glm::vec2) + sizeof(glm::vec3)));
     glEnableVertexAttribArray(3);
     glVertexAttribDivisor(3, 1);
+
+    GetOpenGLInfo();
 
     while (!glfwWindowShouldClose(window)) {
         update();
