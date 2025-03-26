@@ -15,6 +15,9 @@
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+int windowWidth = SCR_WIDTH;
+int windowHeight = SCR_HEIGHT;
+
 struct Vertex {
     glm::vec2 position;
     glm::vec3 color;
@@ -40,6 +43,8 @@ GLuint circleVAO, circleVBO, instanceVBO;
 std::vector<glm::vec2> unitCircle;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
     glViewport(0, 0, width, height);
 }
 
@@ -175,6 +180,8 @@ void renderSnakeLine() {
 
     glBindVertexArray(vao);
     glUseProgram(lineShaderProgram);
+    int resLocLine = glGetUniformLocation(lineShaderProgram, "u_resolution");
+    glUniform2f(resLocLine, (float)windowWidth, (float)windowHeight);
     glDrawArrays(GL_LINE_STRIP, 0, vertices.size());
 }
 
@@ -199,7 +206,7 @@ void renderSnakeCircles() {
     glUseProgram(circleShaderProgram);
 
     int resLoc = glGetUniformLocation(circleShaderProgram, "u_resolution");
-    glUniform2f(resLoc, (float)SCR_WIDTH, (float)SCR_HEIGHT);
+    glUniform2f(resLoc, (float)windowWidth, (float)windowHeight);
 
     glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, unitCircle.size(), instanceData.size());
 }
