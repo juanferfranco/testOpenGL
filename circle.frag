@@ -5,13 +5,9 @@ out vec4 FragColor;
 
 void main() {
     float dist = length(vLocalCoord);
-
-    /*
     if (dist > 1.0) {
         discard;
     }
-    */
-
     float edgeWidth = 0.12; // 12% del radio (ajustable)
 
     if (dist > 1.0 - edgeWidth) {
